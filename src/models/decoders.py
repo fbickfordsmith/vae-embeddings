@@ -2,7 +2,6 @@
 Module containing the decoders.
 """
 import numpy as np
-
 import torch
 from torch import nn
 
@@ -14,8 +13,7 @@ def get_decoder(model_type):
 
 
 class DecoderBurgess(nn.Module):
-    def __init__(self, img_size,
-                 latent_dim=10):
+    def __init__(self, img_size, latent_dim=10):
         r"""Decoder of the model proposed in [1].
 
         Parameters
@@ -58,7 +56,9 @@ class DecoderBurgess(nn.Module):
         cnn_kwargs = dict(stride=2, padding=1)
         # If input image is 64x64 do fourth convolution
         if self.img_size[1] == self.img_size[2] == 64:
-            self.convT_64 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)
+            self.convT_64 = nn.ConvTranspose2d(
+                hid_channels, hid_channels, kernel_size, **cnn_kwargs
+            )
 
         self.convT1 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)
         self.convT2 = nn.ConvTranspose2d(hid_channels, hid_channels, kernel_size, **cnn_kwargs)

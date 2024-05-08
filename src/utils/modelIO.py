@@ -5,7 +5,8 @@ import re
 import numpy as np
 import torch
 
-from disvae import init_specific_model
+from src.models.vae import init_specific_model
+
 
 MODEL_FILENAME = "model.pt"
 META_FILENAME = "specs.json"
@@ -31,8 +32,9 @@ def save_model(model, directory, metadata=None, filename=MODEL_FILENAME):
 
     if metadata is None:
         # save the minimum required for loading
-        metadata = dict(img_size=model.img_size, latent_dim=model.latent_dim,
-                        model_type=model.model_type)
+        metadata = dict(
+            img_size=model.img_size, latent_dim=model.latent_dim, model_type=model.model_type
+        )
 
     save_metadata(metadata, directory)
 
@@ -74,7 +76,7 @@ def save_metadata(metadata, directory, filename=META_FILENAME, **kwargs):
     """
     path_to_metadata = os.path.join(directory, filename)
 
-    with open(path_to_metadata, 'w') as f:
+    with open(path_to_metadata, "w") as f:
         json.dump(metadata, f, indent=4, sort_keys=True, **kwargs)
 
 
@@ -89,8 +91,7 @@ def load_model(directory, is_gpu=True, filename=MODEL_FILENAME):
     is_gpu : bool
         Whether to load on GPU is available.
     """
-    device = torch.device("cuda" if torch.cuda.is_available() and is_gpu
-                          else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() and is_gpu else "cpu")
 
     path_to_model = os.path.join(directory, MODEL_FILENAME)
 
@@ -118,7 +119,7 @@ def load_checkpoints(directory, is_gpu=True):
     checkpoints = []
     for root, _, filenames in os.walk(directory):
         for filename in filenames:
-            results = re.search(r'.*?-([0-9].*?).pt', filename)
+            results = re.search(r".*?-([0-9].*?).pt", filename)
             if results is not None:
                 epoch_idx = int(results.group(1))
                 model = load_model(root, is_gpu=is_gpu, filename=filename)
@@ -128,7 +129,7 @@ def load_checkpoints(directory, is_gpu=True):
 
 
 def _get_model(model_type, img_size, latent_dim, device, path_to_model):
-    """ Load a single model.
+    """Load a single model.
 
     Parameters
     ----------
@@ -159,7 +160,7 @@ def numpy_serialize(obj):
             return obj.tolist()
         else:
             return obj.item()
-    raise TypeError('Unknown type:', type(obj))
+    raise TypeError("Unknown type:", type(obj))
 
 
 def save_np_arrays(arrays, directory, filename):

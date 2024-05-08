@@ -2,7 +2,6 @@
 Module containing the encoders.
 """
 import numpy as np
-
 import torch
 from torch import nn
 
@@ -14,8 +13,7 @@ def get_encoder(model_type):
 
 
 class EncoderBurgess(nn.Module):
-    def __init__(self, img_size,
-                 latent_dim=10):
+    def __init__(self, img_size, latent_dim=10):
         r"""Encoder of the model proposed in [1].
 
         Parameters

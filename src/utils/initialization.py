@@ -7,8 +7,13 @@ def get_activation_name(activation):
     if isinstance(activation, str):
         return activation
 
-    mapper = {nn.LeakyReLU: "leaky_relu", nn.ReLU: "relu", nn.Tanh: "tanh",
-              nn.Sigmoid: "sigmoid", nn.Softmax: "sigmoid"}
+    mapper = {
+        nn.LeakyReLU: "leaky_relu",
+        nn.ReLU: "relu",
+        nn.Tanh: "tanh",
+        nn.Sigmoid: "sigmoid",
+        nn.Softmax: "sigmoid",
+    }
     for k, v in mapper.items():
         if isinstance(activation, k):
             return k
@@ -46,9 +51,9 @@ def linear_init(layer, activation="relu"):
 
     if activation_name == "leaky_relu":
         a = 0 if isinstance(activation, str) else activation.negative_slope
-        return nn.init.kaiming_uniform_(x, a=a, nonlinearity='leaky_relu')
+        return nn.init.kaiming_uniform_(x, a=a, nonlinearity="leaky_relu")
     elif activation_name == "relu":
-        return nn.init.kaiming_uniform_(x, nonlinearity='relu')
+        return nn.init.kaiming_uniform_(x, nonlinearity="relu")
     elif activation_name in ["sigmoid", "tanh"]:
         return nn.init.xavier_uniform_(x, gain=get_gain(activation))
 

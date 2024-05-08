@@ -3,14 +3,11 @@ Module containing discriminator for FactorVAE.
 """
 from torch import nn
 
-from disvae.utils.initialization import weights_init
+from src.utils.initialization import weights_init
 
 
 class Discriminator(nn.Module):
-    def __init__(self,
-                 neg_slope=0.2,
-                 latent_dim=10,
-                 hidden_units=1000):
+    def __init__(self, neg_slope=0.2, latent_dim=10, hidden_units=1000):
         """Discriminator proposed in [1].
 
         Parameters
@@ -58,7 +55,6 @@ class Discriminator(nn.Module):
         self.reset_parameters()
 
     def forward(self, z):
-
         # Fully connected layers with leaky ReLu activations
         z = self.leaky_relu(self.lin1(z))
         z = self.leaky_relu(self.lin2(z))
